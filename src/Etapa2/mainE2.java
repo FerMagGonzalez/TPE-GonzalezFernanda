@@ -1,41 +1,44 @@
 
+package Etapa2;
+
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
 /**
  * @author Fernanda M. Gonzalez
- *
  */
-public class mainListaTPE {
+public class mainE2 {
 
 	public static void main(String[] args) {
 
-		Lista lista = new Lista();
+		int tamanio = 5;
+		ListaConArreglo lista = new ListaConArreglo(tamanio);
 
-        String csvFile = "datasets/dataset_1000000.csv";
+        String csvFile = "datasets/dataset.csv";
         String line = "";
         String cvsSplitBy = ";";
 
         try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
-
+        	br.readLine();    //Saltea la primer linea
             while ((line = br.readLine()) != null) {
                 String[] items = line.split(cvsSplitBy);
                 int i = 0;
                 while (i < items.length) {
-                	Nodo aux = new Nodo(items[i]);
+                	int dni= Integer.parseInt(items[i]);
+                	nArr aux = new nArr(dni);
                 	aux.agregarGusto(aux, items[i+1]);
                 	aux.agregarGusto(aux, items[i+2]);
                 	aux.agregarGusto(aux, items[i+3]);
                 	aux.agregarGusto(aux, items[i+4]);
                 	aux.agregarGusto(aux, items[i+5]);
-                	lista.agregarAlInicio(aux);
+                	lista.agregarUsuario(aux);
                 	i = i+6;
                 }
-            }                                    
+            }     
         } 
         catch (IOException e) {
             e.printStackTrace();
@@ -50,7 +53,7 @@ public class mainListaTPE {
 
         	BufferedWriter bw = null;
     		try {
-    			File file = new File("datasets/salidaInsertLista1.csv");
+    			File file = new File("datasets/salidaInsertE2.csv");
     			if (!file.exists()) {
     				file.createNewFile();
     			}
@@ -64,22 +67,22 @@ public class mainListaTPE {
                     String[] items = line.split(cvsSplitBy);
                     int i = 0;
                     while (i < items.length) {
-                    	Nodo aux = new Nodo(items[i]);
+                    	int dni= Integer.parseInt(items[i]);
+                    	nArr aux = new nArr(dni);
                     	aux.agregarGusto(aux, items[i+1]);
                     	aux.agregarGusto(aux, items[i+2]);
                     	aux.agregarGusto(aux, items[i+3]);
                     	aux.agregarGusto(aux, items[i+4]);
                     	aux.agregarGusto(aux, items[i+5]);
-                    	lista.agregarAlInicio(aux);;
-                    	cant++;
+                    	lista.agregarUsuario(aux);
                     	endTime = System.nanoTime();
+                    	cant++;
                     	String contenidoLinea1 = (endTime - startTime) + " ns" + ";" + aux.getDni() + ";"+ aux.listar();
                     	tTotal += (endTime - startTime);
                     	bw.write(contenidoLinea1);
                     	bw.newLine();
                     	i = i+6;
                     }
-                    
                 }     
 
     			String contenidoLinea1 = "Tiempo total;"+tTotal;
@@ -114,7 +117,7 @@ public class mainListaTPE {
      	   BufferedWriter bw = null;
      	   
        		try {
-       			File file = new File("datasets/salidaBusquedaLista1.csv");
+       			File file = new File("datasets/salidaBusquedaE2.csv");
        			
        			if (!file.exists()) {
        				file.createNewFile();
@@ -128,12 +131,35 @@ public class mainListaTPE {
        			
  	            while ((line = br.readLine()) != null) {
  	            	
- 	            	encontrado = "no encontrado";
- 	        		startTime = System.nanoTime();
- 	        		String[] items = line.split(cvsSplitBy);
+ 	            	encontrado = "No Encontrado";
  	        		
- 	        		if(lista.buscar(items[0])){
- 	        			encontrado = "encontrado";
+ 	        		String[] items = line.split(cvsSplitBy);
+ 	        		int dni= Integer.parseInt(items[0]);
+ 	        		
+ 	        		int u1 = lista.getListaUsuarios()[0].getDni();
+ 	        		int u2 = lista.getListaUsuarios()[1].getDni();
+ 	        		int u3 = lista.getListaUsuarios()[2].getDni();
+ 	        		
+ 	        		startTime = System.nanoTime();
+ 	        		if ((u1 < u2) && (u2 < u3)){ //comparo para saber si la lista esta ordenada de forma ascendente
+ 	        			if(lista.buscar(dni)){
+ 	 	        			encontrado = "Encontrado";
+ 	 	        		}
+ 	        		}
+ 	        		else{
+ 	        			if ((u1 > u2) && (u2 > u3)){  //comparo para saber si la lista esta ordenada de forma descendente
+ 	        				if(lista.buscar(dni)){
+ 	    	        			encontrado = "Encontrado";
+ 	    	        		}
+ 	        			}
+ 	        			else{   //supongo que esta desordenada
+ 	        				ListaConArreglo aux = new ListaConArreglo(lista.getTamanio());
+ 	        				aux.setListaUsuarios(lista.getListaUsuarios().clone());
+ 	        				aux.ordenar();
+ 	        				if(aux.buscar(dni)){
+ 	    	        			encontrado = "Encontrado";
+ 	    	        		}
+ 	        			}
  	        		}
  	        		
              	    endTime = System.nanoTime();

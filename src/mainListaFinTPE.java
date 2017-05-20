@@ -1,4 +1,3 @@
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.BufferedWriter;
@@ -10,13 +9,13 @@ import java.io.IOException;
  * @author Fernanda M. Gonzalez
  *
  */
-public class mainListaTPE {
+public class mainListaFinTPE {
 
 	public static void main(String[] args) {
 
 		Lista lista = new Lista();
 
-        String csvFile = "datasets/dataset_1000000.csv";
+        String csvFile = "datasets/dataset_500000.csv";
         String line = "";
         String cvsSplitBy = ";";
 
@@ -32,7 +31,7 @@ public class mainListaTPE {
                 	aux.agregarGusto(aux, items[i+3]);
                 	aux.agregarGusto(aux, items[i+4]);
                 	aux.agregarGusto(aux, items[i+5]);
-                	lista.agregarAlInicio(aux);
+                	lista.agregarAlFinal(aux);
                 	i = i+6;
                 }
             }                                    
@@ -50,7 +49,7 @@ public class mainListaTPE {
 
         	BufferedWriter bw = null;
     		try {
-    			File file = new File("datasets/salidaInsertLista1.csv");
+    			File file = new File("datasets/salidaInsertListaFin500.csv");
     			if (!file.exists()) {
     				file.createNewFile();
     			}
@@ -70,7 +69,7 @@ public class mainListaTPE {
                     	aux.agregarGusto(aux, items[i+3]);
                     	aux.agregarGusto(aux, items[i+4]);
                     	aux.agregarGusto(aux, items[i+5]);
-                    	lista.agregarAlInicio(aux);;
+                    	lista.agregarAlFinal(aux);
                     	cant++;
                     	endTime = System.nanoTime();
                     	String contenidoLinea1 = (endTime - startTime) + " ns" + ";" + aux.getDni() + ";"+ aux.listar();
@@ -114,7 +113,7 @@ public class mainListaTPE {
      	   BufferedWriter bw = null;
      	   
        		try {
-       			File file = new File("datasets/salidaBusquedaLista1.csv");
+       			File file = new File("datasets/salidaBusquedaListaFin500.csv");
        			
        			if (!file.exists()) {
        				file.createNewFile();

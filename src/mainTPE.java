@@ -17,7 +17,7 @@ public class mainTPE {
 		int tamanio = 10000;
 		ListaConArreglo lista = new ListaConArreglo(tamanio);
 
-        String csvFile = "datasets/dataset_500000.csv";
+        String csvFile = "datasets/dataset_3000000.csv";
         String line = "";
         String cvsSplitBy = ";";
 
@@ -51,7 +51,7 @@ public class mainTPE {
 
         	BufferedWriter bw = null;
     		try {
-    			File file = new File("datasets/salidaInsert.csv");
+    			File file = new File("datasets/salidaInsertTPE3.csv");
     			if (!file.exists()) {
     				file.createNewFile();
     			}
@@ -115,7 +115,7 @@ public class mainTPE {
      	   BufferedWriter bw = null;
      	   
        		try {
-       			File file = new File("datasets/salidaBusqueda.csv");
+       			File file = new File("datasets/salidaBusquedaTPE3.csv");
        			
        			if (!file.exists()) {
        				file.createNewFile();
